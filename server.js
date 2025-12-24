@@ -126,4 +126,6 @@ app.post('/api/admin/login', (req, res) => req.body.password === ADMIN_PASSWORD 
 app.get('/api/admin/sites', (req, res) => res.json(getDB().sites));
 app.post('/api/admin/sites', (req, res) => { saveDB({sites: req.body.sites}); res.json({ success: true }); });
 
-app.listen(PORT, () => { console.log(`服务已启动: http://localhost:${PORT}`); });
+app.listen(PORT, '0.0.0.0', () => { 
+    console.log(`服务已启动，监听地址: 0.0.0.0:${PORT}`); 
+});
