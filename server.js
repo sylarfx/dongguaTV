@@ -14,6 +14,34 @@ const ADMIN_PASSWORD = "admin";
 const FORCE_UPDATE = true; 
 
 app.use(cors());
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
+// 1. 设置访问密码（建议在 Zeabur 环境变量中设置 SITE_PASSWORD）
+const SITE_PASSWORD = process.env.SITE_PASSWORD || "123456"; 
+
+// 2. 登录接口
+app.post('/api/login', (req, res) => {
+    const { password } = req.body;
+    if (password === SITE_PASSWORD) {
+        // 设置一个 7 天有效的 Cookie
+        res.cookie('auth_token', 'verified', { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true });
+        res.json({ success: true });
+    } else {
+        res.status(401).json({ success: false, message: "密码错误" });
+    }
+});
+
+// 3. 全局访问控制中间件
+app.use((req, res, next) => {
+    // 允许访问登录页和登录接口，其他页面需要验证
+    const publicPaths = ['/login.html', '/api/login'];
+    if (publicPaths.includes(req.path) || req.cookies.auth_token === 'verified') {
+        next();
+    } else {
+        res.redirect('/login.html');
+    }
+});
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
