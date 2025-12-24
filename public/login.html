@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>访问受限</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #1a1a1a; color: white; }
+        .box { background: #333; padding: 20px; border-radius: 8px; text-align: center; }
+        input { padding: 10px; margin: 10px 0; width: 200px; border: none; border-radius: 4px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h3>请输入访问密码</h3>
+        <input type="password" id="pw" placeholder="Password"> <br>
+        <button onclick="login()">进入系统</button>
+    </div>
+    <script>
+        async function login() {
+            const pw = document.getElementById('pw').value;
+            const res = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: pw })
+            });
+            if (res.ok) { window.location.href = '/'; } 
+            else { alert('密码错误！'); }
+        }
+    </script>
+</body>
+</html>
