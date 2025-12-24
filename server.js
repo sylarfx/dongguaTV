@@ -17,7 +17,7 @@ app.use(express.static('public'));
 
 // 默认接口配置 (保持你的 30+ 个接口不变)
 const DEFAULT_SITES = [
-    { key: "ffzy", name: "非凡影视", api: "https://替换接口 一行一条", active: true },
+    { key: "ffzy", name: "非凡影视", api: "https://替换接口 一行一条", active: true },]
 
 if (!fs.existsSync(DATA_FILE) || FORCE_UPDATE) {
     // 只有在没有文件时，或者强制更新开启时，才重置配置
