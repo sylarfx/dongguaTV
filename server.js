@@ -7,7 +7,9 @@ const path = require('path');
 
 const app = express();
 const PORT = 3000;
-const DATA_FILE = path.join(__dirname, 'db.json');
+const dataDir = path.join(__dirname, 'data');
+if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir); // 自动创建 data 目录
+const DATA_FILE = path.join(dataDir, 'db.json');
 const ADMIN_PASSWORD = "admin"; 
 const FORCE_UPDATE = true; 
 
